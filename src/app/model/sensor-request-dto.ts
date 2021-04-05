@@ -1,4 +1,5 @@
 export class SensorRequestDto {
+  id: number;
   name: string;
   model: string;
   idType: number;
@@ -8,8 +9,9 @@ export class SensorRequestDto {
   rangeFrom: number;
   rangeTo: number;
 
-  constructor(name: string, model: string, idType: number, idUnit: number, location: string, description: string, rangeFrom: number,
-              rangeTo: number) {
+  constructor(id: number, name: string, model: string, idType: number, idUnit: number, location: string, description: string,
+              rangeFrom: number, rangeTo: number) {
+    this.id = id;
     this.name = name;
     this.model = model;
     this.idType = idType;

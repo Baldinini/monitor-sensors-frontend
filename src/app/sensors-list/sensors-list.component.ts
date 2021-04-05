@@ -1,15 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {SensorResponseDto} from '../model/sensor-response-dto';
-import {SensorService} from '../service/sensor.service';
+import { SensorResponseDto } from '../model/sensor-response-dto';
+import { SensorService } from '../service/sensor.service';
 
-const SENSORS: SensorResponseDto[] = [
-  {id: 1, name: 'sensor', model: 'sad', typeName: 'Voltage', unitName: 'Bar', location: 'room 1', rangeFrom: 10,
-    rangeTo: 15, description: 'is working'},
-  {id: 2, name: 'sensor 2', model: 'sad', typeName: 'Voltage', unitName: 'Bar', location: 'room 1', rangeFrom: 10,
-    rangeTo: 15, description: 'not working'},
-  {id: 3, name: 'sensor 3', model: 'sad', typeName: 'Voltage', unitName: 'Bar', location: 'room 1',
-    rangeFrom: 10, rangeTo: 15, description: 'is working'},
-];
 @Component({
   selector: 'app-sensors-list',
   templateUrl: './sensors-list.component.html',
@@ -17,12 +9,31 @@ const SENSORS: SensorResponseDto[] = [
 })
 
 export class SensorsListComponent implements OnInit {
+  sensors: SensorResponseDto[];
+  displayedColumns: string[] = ['name', 'model', 'typeName', 'unitName', 'range', 'location', 'buttons'];
 
-  constructor(/*private sensorService: SensorService*/) { }
+  filter = {
+    keyword: ''
+  };
+  constructor(private sensorService: SensorService) { }
 
-  displayedColumns: string[] = ['name', 'model', 'type', 'unit', 'range', 'location'];
-  dataSource = SENSORS;
   ngOnInit(): void {
-//    this.sensorService.getAllSensors().subscribe( sensors => this.sensors = sensors);
+    this.sensorService.getAllSensors().subscribe(sensors => this.sensors = sensors);
+  }
+  getAllSensors(): void {
+    this.sensorService.getAllSensors().subscribe(sensors => this.sensors = this.filterSensor(sensors));
+  }
+  delete(id: number): void {
+    this.sensorService.deleteSensor(id).subscribe(() => {
+      this.ngOnInit();
+    });
+  }
+  filterSensor(sensors: SensorResponseDto[]): SensorResponseDto[] {
+    return sensors.filter((e) => {
+      return e.name.toLowerCase().includes(this.filter.keyword.toLowerCase())
+        || e.model.toLowerCase().includes(this.filter.keyword.toLowerCase())
+        || e.typeName.toLowerCase().includes(this.filter.keyword.toLowerCase())
+        || e.unitName.toLowerCase().includes(this.filter.keyword.toLowerCase());
+    });
   }
 }

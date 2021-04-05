@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {SensorRequestDto} from '../model/sensor-request-dto';
-import {SensorService} from '../service/sensor.service';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SensorRequestDto } from '../model/sensor-request-dto';
+import { SensorService } from '../service/sensor.service';
 
 @Component({
   selector: 'app-create-sensor',
@@ -10,13 +11,14 @@ import {SensorService} from '../service/sensor.service';
 })
 export class CreateSensorComponent implements OnInit {
 
-  constructor(private sensorService: SensorService) { }
+  constructor(private sensorService: SensorService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   createSensor(form: NgForm): void {
     const sensor = new SensorRequestDto(
+      form.value.id,
       form.value.name,
       form.value.model,
       form.value.idType,
@@ -26,7 +28,8 @@ export class CreateSensorComponent implements OnInit {
       form.value.rangeFrom,
       form.value.rangeTo);
     console.log(sensor);
-    this.sensorService.createSensor(sensor).subscribe();
-    form.resetForm();
+    this.sensorService.createSensor(sensor).subscribe(() => {
+      this.router.navigateByUrl('/sensors');
+    });
   }
 }
