@@ -1,0 +1,31 @@
+<h1>Sensors</h1>
+  <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let sensor">{{sensor.name}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="model">
+      <mat-header-cell *matHeaderCellDef> Model </mat-header-cell>
+      <mat-cell *matCellDef="let sensor">{{sensor.model}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="typeName">
+      <mat-header-cell *matHeaderCellDef> Type </mat-header-cell >
+      <mat-cell *matCellDef="let sensor">{{sensor.type}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="unitName">
+      <mat-header-cell *matHeaderCellDef> Unit </mat-header-cell >
+      <mat-cell *matCellDef="let sensor">{{sensor.unit}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="range">
+      <mat-header-cell  *matHeaderCellDef> Range </mat-header-cell >
+      <mat-cell *matCellDef="let sensor">{{sensor.rangeFrom}} - {{sensor.rangeTo}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="location">
+      <mat-header-cell  *matHeaderCellDef> Location </mat-header-cell>
+      <mat-cell *matCellDef="let sensor">{{sensor.location}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
